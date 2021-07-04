@@ -16,14 +16,12 @@ def resizeRendererToDisplaySize renderer
 	let height = canvas.clientHeight * pixelRatio | 0
 	let needResize = canvas.width !== width || canvas.height !== height
 	if needResize
-		console.log "RESIZE"
 		renderer.setSize width, height, false
 	needResize
 
 
 def timeslot
 	let duration = 7.8ms
-
 
 
 tag app
@@ -74,7 +72,7 @@ tag app
 		scene = new THREE.Scene!
 		camera = new THREE.PerspectiveCamera 75, 2, 0.1
 		# camera = new THREE.OrthographicCamera  -10, 10, 10, -10
-		renderer = new THREE.WebGLRenderer {canvas: $body}
+		renderer = new THREE.WebGLRenderer {canvas: $body, antialias: true}
 		# renderer.setSize window.innerWidth, window.innerHeight
 		raycaster = new THREE.Raycaster!
 		renderer.setClearColor new THREE.Color('#21282a'), 1
@@ -147,26 +145,29 @@ tag app
 		# scene.add light2
 		# scene.add light2.target 
 		scene.add plane
-		cone = createCone!
-		cone.rotateX Math.PI
-		cone.position.setY torus.position.y + cone.geometry.parameters.height * 2.2
+		# cone = createCone!
+		# cone.rotateX Math.PI
+		# cone.position.setY torus.position.y + cone.geometry.parameters.height * 2.2
 		
-		scene.add cone
+		# scene.add cone
 		scene.add pointLight
 
 		helper = new THREE.PointLightHelper pointLight, 2
 		v = new TimeAllocVis gui
 		scene.add v.mesh
+		v.mesh.rotateX Math.PI / 2
 
 		# self.dat {plane}
 		light2.position.set(0, 10, 4)
 		
 		v.mesh.position.set(0, 0, 0)
-		camera.position.set( 0, 0, 10 );
+		camera.position.set( -10, 10, 6);
 		camera.lookAt( 0, 0, 0 );
 		window.geom = v.mesh.geometry
 		plane.rotateX(Math.PI / 2)
 		plane.position.setY -4
+		plane.scale.setX 4
+		plane.scale.setY 4
 		animate = do |now|
 			window.requestAnimationFrame animate
 			if resizeRendererToDisplaySize(renderer) 
@@ -206,16 +207,37 @@ tag app
 				gsap.to hoverColor, Object.assign({ onUpdate: do changeColor hoverColor}, initialColor)
 
 		animate!
+		imba.commit!
 
 	mouse = { x: undefined, y: undefined }
 	
+	get tx
+		if v
+			v.#alloc.activeSlot.tx[0]
+		else
+			"NOT READY"
 	
+	get rx
+		if v
+			v.#alloc.activeSlot.rx.reduce (do "{$1}\n{$2}"), ""
+		else
+			""
 	
 	def mouseMoved e
 		mouse.x = (e.clientX / window.innerWidth) * 2 - 1
 		mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
 	<self>
+		<div[pos:absolute t:10 l:25% c:white d:flex w:50vw jc:space-between]>
+			<div>
+				<h1> "TX"
+				<p> tx
+				
+			<div> 
+				<h1> "RX"
+				<p> rx
+
+
 		<canvas$body[w:100% h:100% d:block bg:green2] @mousemove=mouseMoved>
 
 imba.mount <app>

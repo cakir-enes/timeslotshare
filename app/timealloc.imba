@@ -1,3 +1,5 @@
+import * as THREE from 'three'
+
 
 export const cfg_1 = [
 	{
@@ -24,6 +26,7 @@ export class TimeAlloc
 	def constructor cfg
 		#config = parseConfig cfg
 		#slotIndex = 0
+		#color = new THREE.Color('blue')
 
 	get activeSlot
 		let s = #config.schedule[#slotIndex]
@@ -38,12 +41,17 @@ export class TimeAlloc
 			else
 				c.push "black"
 		c
-			
-		
 
-	
+	get activeColor
+		let p = #config.schedule[#slotIndex].tx[0]
+		if p
+			#color.setColorName #config.platforms[p].color
+		#color
+
+		
 	def step
 		#slotIndex = ++#slotIndex % 1536
+		imba.commit!
 
 	def parseConfig cfg
 		let c = {platforms: {}, schedule: []}
