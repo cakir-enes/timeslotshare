@@ -4,14 +4,12 @@ import * as THREE from 'three'
 export const cfg_1 = [
 	{
 		name: "f16-1",
-		tx: [[0, 768]],
-		rx: [[768, 1536]],
+		tx: [670, [0, 657]],
 		color: "blue"
 	},
 	{
 		name: "f16-2",
 		tx: [[768, 1536]],
-		rx: [[0, 768]],
 		color: "orange"
 	},
 ]
@@ -43,9 +41,11 @@ export class TimeAlloc
 		c
 
 	get activeColor
-		let p = #config.schedule[#slotIndex].tx[0]
+		let p = #config.schedule[#slotIndex]?.tx[0]
 		if p
 			#color.setColorName #config.platforms[p].color
+		else
+			#color.setColorName 'white'
 		#color
 
 		
@@ -56,20 +56,22 @@ export class TimeAlloc
 	def parseConfig cfg
 		let c = {platforms: {}, schedule: []}
 		for platform of cfg
-			c.platforms[platform.name] =  platform
+			c.platforms[platform.name] = platform
 
+			
 			for txRange of platform.tx
+
+				if typeof txRange is 'number'
+					console.log "ahha"
+					if !c.schedule[txRange]
+						c.schedule[txRange] = {tx: [], rx: []}
+					c.schedule[txRange].tx.push platform.name
+					continue
+			
 				for i in [txRange[0]...txRange[1]]
 					if c.schedule[i]
 						c.schedule[i].tx.push platform.name
 					else
 						c.schedule[i] = {tx: [platform.name], rx: []}
-						
-			for rxRange of platform.rx
-				for i in [rxRange[0]...rxRange[1]]
-					if c.schedule[i]
-						c.schedule[i].rx.push platform.name
-					else
-						c.schedule[i] = {rx: [platform.name], tx: []}
 		c
 				

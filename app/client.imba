@@ -25,9 +25,9 @@ def timeslot
 
 
 tag app
-	global css 
+	global css
 		html, body 
-			m:0 h:100% bg:blue4
+			m:0 h:100% bg:blue4 p:0
 
 	gui = new dat.GUI!
 	
@@ -104,13 +104,13 @@ tag app
 			new THREE.Mesh geomx, mate)!
 		
 		light = (do
-			l = new THREE.AmbientLight 0xffffff, 0.1
+			l = new THREE.AmbientLight 0xffffff, 0.0
 			l.position.set 0, 0, 2
 			l)!
 		
 		light2 = (do
 			l = new THREE.DirectionalLight 0xffffff, 1
-			l.position.set 0, 0, 30
+			l.position.set 0, 10, 30
 			l)!
 		
 		pointLight = new THREE.PointLight 0xFFFFFF, 1.0		
@@ -213,15 +213,9 @@ tag app
 	
 	get tx
 		if v
-			v.#alloc.activeSlot.tx[0]
+			v.#alloc.activeSlot??.tx[0] ?? "EMPTY"
 		else
 			"NOT READY"
-	
-	get rx
-		if v
-			v.#alloc.activeSlot.rx.reduce (do "{$1}\n{$2}"), ""
-		else
-			""
 	
 	def mouseMoved e
 		mouse.x = (e.clientX / window.innerWidth) * 2 - 1
@@ -229,14 +223,10 @@ tag app
 
 	<self>
 		<div[pos:absolute t:10 l:25% c:white d:flex w:50vw jc:space-between]>
-			<div>
-				<h1> "TX"
-				<p> tx
-				
-			<div> 
-				<h1> "RX"
-				<p> rx
-
+			<div[d:hflex]>
+				<h1> tx
+				<h1> '@'
+				<h1> 1234
 
 		<canvas$body[w:100% h:100% d:block bg:green2] @mousemove=mouseMoved>
 
