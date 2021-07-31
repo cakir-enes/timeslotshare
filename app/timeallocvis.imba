@@ -70,7 +70,7 @@ export class TimeAllocVis
 	size = {
 			radius: 8,
 			tube: 1,
-			radial: 500,
+			radial: 100,
 			tubular: 1536
 		}
 

@@ -1,3 +1,4 @@
+import { TimeSlotScheduler } from './TimeSlotScheduler'
 import * as THREE from 'three'
 
 
@@ -25,6 +26,8 @@ export class TimeAlloc
 		#config = parseConfig cfg
 		#slotIndex = 0
 		#color = new THREE.Color('blue')
+		v = new TimeSlotScheduler()
+		console.log(v.doThat!)
 
 	get activeSlot
 		let s = #config.schedule[#slotIndex]
@@ -47,6 +50,7 @@ export class TimeAlloc
 		else
 			#color.setColorName 'white'
 		#color
+	
 
 		
 	def step
