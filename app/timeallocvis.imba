@@ -1,4 +1,4 @@
-import { cfg_1, TimeAlloc } from '../../../../../Users/enescakir/proj/imbo/app/timealloc'
+import { cfg_1, TimeAlloc } from './timealloc'
 import type { Color } from '@types/three'
 import * as THREE from 'three';
 	
