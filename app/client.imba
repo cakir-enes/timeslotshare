@@ -1,5 +1,5 @@
-import { schedulerView } from '../../../../../Users/enescakir/proj/imbo/app/TimeSlotSchedulerView.ts'
 import { TimeSlotSchedulerView } from './TimeSlotSchedulerView'
+import { sampleConfig } from './TimeSlotScheduler'
 import { TimeAllocVis } from './timeallocvis'
 import * as THREE from 'three';
 import * as dat from 'dat.gui'
@@ -10,20 +10,21 @@ import './timeallocvis'
 global css html
 	ff:sans
 
-def resizeRendererToDisplaySize renderer
-	
-	let canvas = renderer.domElement
-	let pixelRatio = window.devicePixelRatio
-	let width = canvas.clientWidth * pixelRatio | 0
-	let height = canvas.clientHeight * pixelRatio | 0
-	let needResize = canvas.width !== width || canvas.height !== height
-	if needResize
-		renderer.setSize width, height, false
-	needResize
 
 
-def timeslot
-	let duration = 7.8ms
+tag config-input
+
+	open = false
+
+	<self>
+		<div[d:vflex]>
+			<div[d:hflex] @click=(do open = !open)>
+				<h1[bg:black]> "Config"
+			if open
+				<div[d:vflex bg:white c:black]>
+					<span> JSON.stringify(sampleConfig, null, 2)
+					
+
 
 
 tag app
@@ -145,7 +146,7 @@ tag app
 
 		# pointLight.position.set 0, 10, 0
 		# scene.add light
-		# # scene.add light2
+		# # scene.add light2	
 		# # scene.add light2.target 
 		# scene.add plane
 		# # cone = createCone!
@@ -216,6 +217,8 @@ tag app
 		mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
 	<self>
+		<div[pos:absolute t:2 l:10% c:white]>
+			<config-input>
 		<div[pos:absolute t:10 l:25% c:white d:flex jc:space-between]>
 			<div[d:vflex]>
 				<h1> tx

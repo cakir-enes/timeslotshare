@@ -39,6 +39,7 @@ export class TimeSlotScheduler {
             cfg.forEach(({ network, slots, color }) => {
                 let allocs = sched[network] || []
                 let slotIdxs = this.toSlotRange(slots)
+                console.log(slots, " -> ", slotIdxs)
                 for (let i of slotIdxs) {
                     allocs[i] = { platform, color }
                 }
