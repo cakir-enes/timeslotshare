@@ -27,7 +27,6 @@ export class TimeAlloc
 		#slotIndex = 0
 		#color = new THREE.Color('blue')
 		v = new TimeSlotScheduler()
-		console.log(v.doThat!)
 
 	get activeSlot
 		let s = #config.schedule[#slotIndex]
