@@ -31,6 +31,9 @@ tag app
 	global css
 		html, body 
 			m:0 h:100% bg:blue4 p:0
+	css
+		.cfg  pos:absolute t:2 l:10% c:white
+		.info  pos:absolute t:10 l:25% c:white d:flex jc:space-between
 
 	gui = new dat.GUI!
 	ts = null
@@ -217,9 +220,9 @@ tag app
 		mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
 
 	<self>
-		<div[pos:absolute t:2 l:10% c:white]>
+		<div.cfg>
 			<config-input>
-		<div[pos:absolute t:10 l:25% c:white d:flex jc:space-between]>
+		<div.info>
 			<div[d:vflex]>
 				<h1> tx
 				<h1> slot
